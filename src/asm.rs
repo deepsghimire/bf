@@ -1,10 +1,9 @@
 use crate::opcode::Opcode;
 use crate::opcode::ALLCMDS;
-
- fn filter(code: String) -> String {
+fn filter(code: String) -> String {
     let only_commands: Vec<_> = code.bytes().filter(|byte| ALLCMDS.contains(byte)).collect();
     let code = String::from_utf8(only_commands).unwrap();
-    eprintln!("{}",code);
+    eprintln!("{}", code);
     code
 }
 
@@ -12,7 +11,6 @@ pub fn assemble(code: String) -> Result<Vec<Opcode>, String> {
     let code = filter(code);
     let mut codes = Vec::new();
     let mut stack = Vec::new();
-
 
     for (index, byte) in code.bytes().enumerate() {
         let code = Opcode::from(byte);
@@ -31,7 +29,10 @@ pub fn assemble(code: String) -> Result<Vec<Opcode>, String> {
     }
 
     if !stack.is_empty() {
-        return Err(format!("']' not found for '[' at: {}", stack.pop().unwrap()));
+        return Err(format!(
+            "']' not found for '[' at: {}",
+            stack.pop().unwrap()
+        ));
     };
 
     let mut backlocations = std::collections::HashMap::new();
@@ -45,4 +46,21 @@ pub fn assemble(code: String) -> Result<Vec<Opcode>, String> {
         codes[in_location as usize] = Opcode::JumpIn(jumplocation as u32);
     }
     Ok(codes)
+}
+
+pub fn emitbits(codes: Vec<Opcode>) -> Vec<u8> {
+    let mut result = Vec::new();
+    for code in codes {
+        for byte in dbg!(code.to_bits()) {
+            result.push(byte);
+        }
+    }
+    result
+}
+
+pub fn emitcodes(bits: Vec<u8>) -> Vec<Opcode> {
+    bits.chunks_exact(4).map(|chunk| {
+        let array = [chunk[0],chunk[1],chunk[2],chunk[3]];
+        Opcode::from_bits(array)
+    }).collect()
 }
