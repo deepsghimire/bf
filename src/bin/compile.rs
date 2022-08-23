@@ -30,12 +30,12 @@ fn main() {
         process::exit(1);
     });
 
-    let code = assemble(program).unwrap_or_else(|err| {
+    let code = assemble(&program).unwrap_or_else(|err| {
         eprintln!("Syntax error : {err}");
         process::exit(1);
     });
 
-    let instructions = emitbits(code);
+    let instructions = emitbits(&code);
 
     outfile.write_all(&instructions).unwrap_or_else(|err| {
         eprintln!("Error reading program from {programfile} : {err}");

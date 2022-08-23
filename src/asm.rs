@@ -1,13 +1,13 @@
 use crate::opcode::Opcode;
 use crate::opcode::ALLCMDS;
-fn filter(code: String) -> String {
+fn filter(code: &String) -> String {
     let only_commands: Vec<_> = code.bytes().filter(|byte| ALLCMDS.contains(byte)).collect();
     let code = String::from_utf8(only_commands).unwrap();
     eprintln!("{}", code);
     code
 }
 
-pub fn assemble(code: String) -> Result<Vec<Opcode>, String> {
+pub fn assemble(code: &String) -> Result<Vec<Opcode>, String> {
     let code = filter(code);
     let mut codes = Vec::new();
     let mut stack = Vec::new();
@@ -48,7 +48,7 @@ pub fn assemble(code: String) -> Result<Vec<Opcode>, String> {
     Ok(codes)
 }
 
-pub fn emitbits(codes: Vec<Opcode>) -> Vec<u8> {
+pub fn emitbits(codes: &Vec<Opcode>) -> Vec<u8> {
     let mut result = Vec::new();
     for code in codes {
         for byte in code.to_bits() {
@@ -58,7 +58,7 @@ pub fn emitbits(codes: Vec<Opcode>) -> Vec<u8> {
     result
 }
 
-pub fn emitcodes(bits: Vec<u8>) -> Vec<Opcode> {
+pub fn emitcodes(bits: &Vec<u8>) -> Vec<Opcode> {
     bits.chunks_exact(4)
         .map(|chunk| {
             let array = [chunk[0], chunk[1], chunk[2], chunk[3]];

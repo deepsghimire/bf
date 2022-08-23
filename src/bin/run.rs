@@ -22,7 +22,7 @@ fn main() {
     let codes;
 
     if let Ok(program) = program {
-        codes = assemble(program).unwrap_or_else(|err| {
+        codes = assemble(&program).unwrap_or_else(|err| {
             eprintln!("Syntax error : {err}");
             process::exit(1);
         });
@@ -31,7 +31,7 @@ fn main() {
             eprintln!("Error reading binary {filename}  : {er}");
             process::exit(1);
         });
-        codes = emitcodes(program);
+        codes = emitcodes(&program);
     }
 
     mach.run(codes).unwrap_or_else(|err| {
