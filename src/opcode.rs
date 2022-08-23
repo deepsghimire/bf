@@ -5,7 +5,7 @@
 pub const ALLCMDS: &[u8] = b"<>[]+-.,";
 
 
-#[derive(Debug,PartialEq)]
+#[derive(Debug)]
 pub enum Opcode {
     MovRight,
     MovLeft,

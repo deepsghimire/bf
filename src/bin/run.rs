@@ -5,11 +5,9 @@ use std::fs;
 use std::process;
 
 fn getfilename() -> Result<String, String> {
-    let filename = env::args()
-        .skip(1)
-        .next()
-        .ok_or(String::from("filename required"));
-    filename
+    env::args()
+        .nth(1)
+        .ok_or_else(|| String::from("filename required"))
 }
 
 fn main() {
@@ -23,9 +21,8 @@ fn main() {
 
     let codes;
 
-    if program.is_ok() {
-        let program = program.unwrap();
-        codes = assemble(String::from(program)).unwrap_or_else(|err| {
+    if let Ok(program) = program {
+        codes = assemble(program).unwrap_or_else(|err| {
             eprintln!("Syntax error : {err}");
             process::exit(1);
         });

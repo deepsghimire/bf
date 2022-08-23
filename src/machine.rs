@@ -11,6 +11,12 @@ pub struct Machine {
     code_point: usize,
 }
 
+impl Default for Machine {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Machine {
     pub fn new() -> Self {
         Self {
