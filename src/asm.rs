@@ -51,7 +51,7 @@ pub fn assemble(code: String) -> Result<Vec<Opcode>, String> {
 pub fn emitbits(codes: Vec<Opcode>) -> Vec<u8> {
     let mut result = Vec::new();
     for code in codes {
-        for byte in dbg!(code.to_bits()) {
+        for byte in code.to_bits() {
             result.push(byte);
         }
     }
