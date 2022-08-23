@@ -3,6 +3,7 @@ use std::io;
 use std::io::{Read, Write};
 
 const CAP: usize = 0xFF_FF_FF;
+
 pub struct Machine {
     cells: Vec<u8>,
     point: usize,

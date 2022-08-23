@@ -23,7 +23,7 @@ pub fn assemble(code: String) -> Result<Vec<Opcode>, String> {
             }
             Opcode::JumpOut(_) => match stack.pop() {
                 Some(location) => Opcode::JumpOut(location as u32),
-                _ => return Err(format!("no [ for ] at: {index}")),
+                _ => return Err(format!("'[' not found for ']' at: {index}")),
             },
             other => other,
         };
@@ -31,7 +31,7 @@ pub fn assemble(code: String) -> Result<Vec<Opcode>, String> {
     }
 
     if !stack.is_empty() {
-        return Err(format!("no ] found for [ at: {}", stack.pop().unwrap()));
+        return Err(format!("']' not found for '[' at: {}", stack.pop().unwrap()));
     };
 
     let mut backlocations = std::collections::HashMap::new();

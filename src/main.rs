@@ -28,7 +28,10 @@ fn main() {
 
 
     let mut mach = Machine::new();
-    let codes = assemble(String::from(program)).unwrap();
+    let codes = assemble(String::from(program)).unwrap_or_else(|err|{
+        eprintln!("Syntax error : {err}");
+        process::exit(1);
+    });
 
     mach.run(codes).unwrap_or_else(|err| {
         eprintln!("Error occured: {err}");
