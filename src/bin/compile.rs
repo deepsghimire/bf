@@ -19,7 +19,6 @@ fn main() {
         eprintln!("Argument error: {err}");
         process::exit(1);
     });
-    println!("{programfile}, {outputfile}");
 
     let mut outfile = fs::File::create(&outputfile).unwrap_or_else(|err| {
         eprintln!("Unable to open to {outputfile}: {err}");
