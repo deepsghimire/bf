@@ -1,8 +1,18 @@
 use crate::opcode::Opcode;
+use crate::opcode::ALLCMDS;
+
+ fn filter(code: String) -> String {
+    let only_commands: Vec<_> = code.bytes().filter(|byte| ALLCMDS.contains(byte)).collect();
+    let code = String::from_utf8(only_commands).unwrap();
+    eprintln!("{}",code);
+    code
+}
 
 pub fn assemble(code: String) -> Result<Vec<Opcode>, String> {
+    let code = filter(code);
     let mut codes = Vec::new();
     let mut stack = Vec::new();
+
 
     for (index, byte) in code.bytes().enumerate() {
         let code = Opcode::from(byte);

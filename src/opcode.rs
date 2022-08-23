@@ -1,6 +1,7 @@
 
 
-const ALLCMDS: &str = "<>[]+-.,";
+
+pub const ALLCMDS: &[u8] = b"<>[]+-.,";
 
 #[derive(Debug,PartialEq)]
 pub enum Opcode {
