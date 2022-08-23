@@ -31,7 +31,7 @@ fn main() {
         process::exit(1);
     });
 
-    let code = assemble(program).unwrap_or_else(|err|{
+    let code = assemble(program).unwrap_or_else(|err| {
         eprintln!("Syntax error : {err}");
         process::exit(1);
     });

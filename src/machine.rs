@@ -57,7 +57,7 @@ impl Machine {
             Opcode::Out => {
                 // let output = String::from_utf8(vec![self.cells[self.point]])?;
                 let output = self.cells[self.point];
-                write!(io::stdout(),"{}",output as char)?;
+                write!(io::stdout(), "{}", output as char)?;
             }
             Opcode::JumpIn(loc) => {
                 if self.cells[self.point] == 0 {

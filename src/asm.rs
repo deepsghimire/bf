@@ -59,8 +59,10 @@ pub fn emitbits(codes: Vec<Opcode>) -> Vec<u8> {
 }
 
 pub fn emitcodes(bits: Vec<u8>) -> Vec<Opcode> {
-    bits.chunks_exact(4).map(|chunk| {
-        let array = [chunk[0],chunk[1],chunk[2],chunk[3]];
-        Opcode::from_bits(array)
-    }).collect()
+    bits.chunks_exact(4)
+        .map(|chunk| {
+            let array = [chunk[0], chunk[1], chunk[2], chunk[3]];
+            Opcode::from_bits(array)
+        })
+        .collect()
 }
