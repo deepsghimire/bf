@@ -1,10 +1,7 @@
 use std::env;
-use std::fs;
-use std::io::Write;
 use std::process;
 
-use bf::asm::assemble;
-use bf::asm::emitbits;
+use bf::compile_and_save;
 
 fn get_config() -> Result<(String, String), String> {
     let mut args = env::args().skip(1);
@@ -20,25 +17,7 @@ fn main() {
         process::exit(1);
     });
 
-    let mut outfile = fs::File::create(&outputfile).unwrap_or_else(|err| {
-        eprintln!("Unable to open to {outputfile}: {err}");
-        process::exit(1);
-    });
-
-    let program = fs::read_to_string(&programfile).unwrap_or_else(|err| {
-        eprintln!("Error reading program from {programfile} : {err}");
-        process::exit(1);
-    });
-
-    let code = assemble(&program).unwrap_or_else(|err| {
-        eprintln!("Syntax error : {err}");
-        process::exit(1);
-    });
-
-    let instructions = emitbits(&code);
-
-    outfile.write_all(&instructions).unwrap_or_else(|err| {
-        eprintln!("Error reading program from {programfile} : {err}");
-        process::exit(1);
-    });
+    compile_and_save(&programfile, &outputfile).unwrap_or_else(|err| {
+        eprintln!("Compilation Error: {err}");
+    })
 }
