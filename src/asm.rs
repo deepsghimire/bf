@@ -3,7 +3,6 @@ use crate::opcode::ALLCMDS;
 fn filter(code: &str) -> String {
     let only_commands: Vec<_> = code.bytes().filter(|byte| ALLCMDS.contains(byte)).collect();
     let code = String::from_utf8(only_commands).unwrap();
-    eprintln!("{}", code);
     code
 }
 
